@@ -23,8 +23,9 @@ defmodule Kuroon.Mixfile do
   defp deps do
     [
       {:porcelain, "~> 2.0"},
-      {:secure_random, "~> 0.5.1"}
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
+      {:secure_random, "~> 0.5.1"},
+      {:excoveralls, "~> 0.8", only: :test},
+      {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
 end
