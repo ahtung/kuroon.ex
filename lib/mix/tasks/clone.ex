@@ -1,8 +1,8 @@
 defmodule Mix.Tasks.Kuroon.Clone do
 	use Mix.Task
   alias Porcelain.Result
-  alias Porcelain.Process, as: Proc
-	@doc "start task"
+	
+  @doc "start task"
 	def run([repo_from, repo_to, remote_name]) do
     folder = SecureRandom.base64(8)
 		clone(repo_from, folder) 
