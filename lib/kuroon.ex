@@ -5,27 +5,22 @@ defmodule Kuroon do
   """
 
   @doc """
-  Hello world.
+  Clone in between two repos
 
   ## Examples
 
-      iex> Kuroon.hello
-      :world
+      iex> Kuroon.clone("ahtung/kuroon_test_from", "ahtung/kuroon_test_to", "origin")
+      :ok
 
   """
-  def hello do
-    :world
-  end
-
   def clone(repo_from, repo_to, remote_name) do
     folder = SecureRandom.base64(8)
-    cmd = "git clone git@github.com:#{repo_from}.git /tmp/#{folder}"
-    result = Porcelain.shell(cmd)
-    rm_remote = Porcelain.shell("cd /tmp/#{folder} && git remote rm #{remote_name}")
-    add_remote = Porcelain.shell("cd /tmp/#{folder} && git remote add #{remote_name} git@github.com:#{repo_to}.git")
-    push = Porcelain.shell("cd /tmp/#{folder} && git push #{remote_name} master")
-    if push.err == nil do
-      IO.puts "success" 
-    end
+    Porcelain.shell("git clone git@github.com:#{repo_from}.git /tmp/#{folder}")
+    Porcelain.shell("cd /tmp/#{folder} && git remote rm #{remote_name}")
+    Porcelain.shell("cd /tmp/#{folder} && git remote add #{remote_name} git@github.com:#{repo_to}.git")
+    Porcelain.shell("cd /tmp/#{folder} && git push #{remote_name} master --force")
+    Porcelain.shell("rm -rf /tmp/#{folder}")
+  
+    :ok
   end
 end
