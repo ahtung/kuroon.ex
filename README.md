@@ -16,10 +16,21 @@ end
 ```
 
 ## Usage
+Using ```clone()```function
+
+
 ```elixir
 # Kuroon.clone(repo_from, repo_to, remote_name)
 iex(1)> Kuroon.clone("ahtung/kuroon_test_from", "ahtung/kuroon_test_to", "origin")
 ```
+
+Using mix task
+
+```
+# mix kuroon.clone repo_from, repo_to, remote_name
+$ mix kuroon.clone ahtung/kuroon_test_from ahtung/kuroon_test_to origin
+```
+
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/kuroon](https://hexdocs.pm/kuroon).
