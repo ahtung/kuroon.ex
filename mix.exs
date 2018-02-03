@@ -30,4 +30,22 @@ defmodule Kuroon.Mixfile do
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
+  
+  
+  # Package Information
+  defp package do
+    [
+      files: ["test", "lib", "mix.exs", "README.md", "LICENSE*"],
+      maintainers: ["Dunya Kirkali", "Onur Kucukkece"],
+      licenses: ["Apache 2.0"],
+      links: %{"GitHub" => "https://github.com/ahtung/kuroon.ex"}
+    ]
+  end
+
+  # Package description
+  defp description do
+    """
+    Cloning will enable mankind to reach eternal life.
+    """
+  end
 end
