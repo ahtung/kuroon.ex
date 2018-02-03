@@ -7,7 +7,7 @@ defmodule Kuroon do
   alias Kuroon.Repo
 
   @doc """
-  Clone inbetween two repos
+  Clones a GitHub repo to it's newly created location
 
   ## Examples
 
