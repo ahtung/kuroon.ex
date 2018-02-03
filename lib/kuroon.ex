@@ -26,39 +26,34 @@ defmodule Kuroon do
   
   defp do_clone(repo) do
     cmd = "git clone git@github.com:#{repo.from}.git /tmp/#{repo.pwd}"
-    case Porcelain.shell(cmd) do
-      %Result{err: _, out: _, status: 0} -> {:ok, repo}
-      %Result{err: error, out: _, status: _} -> {:error, error}
-    end
+    exec(cmd, repo)
   end
 
   defp add_remote({:ok, repo}) do
     cmd = "cd /tmp/#{repo.pwd} && git remote add tmp git@github.com:#{repo.to}.git"
-    case Porcelain.shell(cmd) do
-      %Result{err: _, out: _, status: 0} -> {:ok, repo}
-      %Result{err: error, out: _, status: _} -> {:error, error}
-    end
+    exec(cmd, repo)
   end
   
   defp add_remote({:error, error}), do: {:error, error}
 
   defp push({:ok, repo}) do
     cmd = "cd /tmp/#{repo.pwd} && git push tmp master"
-    case Porcelain.shell(cmd) do
-      %Result{err: _, out: _, status: 0} -> {:ok, repo}
-      %Result{err: error, out: _, status: _} -> {:error, error}
-    end
+    exec(cmd, repo)
   end
   
   defp push({:error, error}), do: {:error, error}
   
   defp clean({:ok, repo}) do
     cmd = "rm -rf /tmp/#{repo.pwd}"
+    exec(cmd, repo)
+  end
+  
+  defp clean({:error, error}), do: {:error, error}
+  
+  defp exec(cmd, repo) do
     case Porcelain.shell(cmd) do
       %Result{err: _, out: _, status: 0} -> {:ok, repo}
       %Result{err: error, out: _, status: _} -> {:error, error}
     end
   end
-  
-  defp clean({:error, error}), do: {:error, error}
 end
