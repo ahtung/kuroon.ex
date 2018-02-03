@@ -21,19 +21,20 @@ end
 ```
 
 ## Usage
-Using ```clone()```function
+
+Using `Kuroon.clone/2`:
 
 
 ```elixir
-# Kuroon.clone(repo_from, repo_to, remote_name)
+# Kuroon.clone(repo_from, repo_to)
 iex(1)> Kuroon.clone("ahtung/kuroon_test_from", "ahtung/kuroon_test_to", "origin")
 ```
 
 Using mix task
 
 ```
-# mix kuroon.clone repo_from, repo_to, remote_name
-$ mix kuroon.clone ahtung/kuroon_test_from ahtung/kuroon_test_to origin
+# mix kuroon.clone repo_from, repo_to
+$ mix kuroon.clone ahtung/kuroon_test_from ahtung/kuroon_test_to
 ```
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
