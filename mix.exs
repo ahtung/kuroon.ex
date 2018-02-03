@@ -8,6 +8,8 @@ defmodule Kuroon.Mixfile do
       elixir: "~> 1.4",
       start_permanent: Mix.env == :prod,
       deps: deps(),
+      package: package(),
+      description: description(),
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [coveralls: :test]
     ]
