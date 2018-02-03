@@ -1,6 +1,6 @@
 defmodule KuroonTest do
   use ExUnit.Case
-  doctest Kuroon
+  # doctest Kuroon
   
   describe "Kuroon.clone/2" do
     test "non existing from repo" do
