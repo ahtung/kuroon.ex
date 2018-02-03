@@ -5,16 +5,18 @@ defmodule Kuroon.Mixfile do
     [
       app: :kuroon,
       version: "0.1.0",
-      elixir: "~> 1.5",
+      elixir: "~> 1.4",
       start_permanent: Mix.env == :prod,
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [coveralls: :test]
     ]
   end
 
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
+      extra_applications: [:logger, :porcelain],
       mod: {Kuroon.Application, []}
     ]
   end
@@ -22,8 +24,28 @@ defmodule Kuroon.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
+      {:porcelain, "~> 2.0"},
+      {:secure_random, "~> 0.5.1"},
+      {:excoveralls, "~> 0.8", only: :test},
+      {:ex_doc, ">= 0.0.0", only: :dev}
     ]
+  end
+  
+  
+  # Package Information
+  defp package do
+    [
+      files: ["test", "lib", "mix.exs", "README.md", "LICENSE*"],
+      maintainers: ["Dunya Kirkali", "Onur Kucukkece"],
+      licenses: ["Apache 2.0"],
+      links: %{"GitHub" => "https://github.com/ahtung/kuroon.ex"}
+    ]
+  end
+
+  # Package description
+  defp description do
+    """
+    Cloning will enable mankind to reach eternal life.
+    """
   end
 end
