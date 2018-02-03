@@ -2,43 +2,68 @@ defmodule Kuroon do
   @moduledoc """
   Cloning will enable mankind to reach eternal life.
   """
+  
+  alias Porcelain.Result
 
   @doc """
   Clone inbetween two repos
 
   ## Examples
 
-      iex> Kuroon.clone("ahtung/kuroon_test_from", "ahtung/kuroon_test_to")
+      iex> elem(Kuroon.clone("ahtung/kuroon_test_from", "ahtung/kuroon_test_to"), 0)
       :ok
 
   """
   @spec clone(binary, binary) :: binary
   def clone(repo_from, repo_to) when is_binary(repo_from) and is_binary(repo_to) do
-    folder = SecureRandom.base64(8)
-    folder
-    |> do_clone(repo_from)
-    |> add_remote(repo_to)
+    %{repo_to: repo_to, repo_from: repo_from, folder: SecureRandom.base64(8)}
+    |> do_clone
+    |> add_remote
     |> push
-    clean(folder)
-    :ok
+    |> clean
   end
   
-  defp do_clone(folder, repo_from) do
-    "git clone git@github.com:#{repo_from}.git /tmp/#{folder}"
-    |> Porcelain.shell
-    folder
+  defp do_clone(params) do
+    cmd = "git clone git@github.com:#{params[:repo_from]}.git /tmp/#{params[:folder]}"
+    case Porcelain.shell(cmd) do
+      %Result{err: nil, out: _, status: _} -> {:ok, params}
+      %Result{err: error, out: _, status: _} -> {:error, error}
+    end
   end
 
-  defp add_remote(folder, repo_to) do
-    Porcelain.shell("cd /tmp/#{folder} && git remote add tmp git@github.com:#{repo_to}.git")
-    folder
-  end
-
-  defp push(folder) do
-    Porcelain.shell("cd /tmp/#{folder} && git push tmp master")
+  defp add_remote({:ok, params}) do
+    cmd = "cd /tmp/#{params[:folder]} && git remote add tmp git@github.com:#{params[:repo_to]}.git"
+    case Porcelain.shell(cmd) do
+      %Result{err: nil, out: _, status: _} -> {:ok, params}
+      %Result{err: error, out: _, status: _} -> {:error, error}
+    end
   end
   
-  defp clean(folder) do
-    Porcelain.shell("rm -rf /tmp/#{folder}")
+  defp add_remote({:error, error}) do
+    IO.puts "An error has occured: #{error}"
+  end
+
+  defp push({:ok, params}) do
+    cmd = "cd /tmp/#{params[:folder]} && git push tmp master"
+    case Porcelain.shell(cmd) do
+      %Result{err: nil, out: _, status: _} -> {:ok, params}
+      %Result{err: error, out: _, status: _} -> {:error, error}
+    end
+  end
+  
+  defp push({:error, error}) do
+    IO.puts "An error has occured: #{error}"
+  end
+  
+  defp clean({:ok, params}) do
+    cmd = "rm -rf /tmp/#{params[:folder]}"
+    case Porcelain.shell(cmd) do
+      %Result{err: nil, out: _, status: _} -> {:ok, params}
+      %Result{err: error, out: _, status: _} -> {:error, error}
+    end
+  end
+  
+  defp clean({:error, error}) do
+    IO.puts "An error has occured: #{error}"
   end
 end
